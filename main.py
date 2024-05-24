@@ -17,17 +17,21 @@ def readJson(filePath): #Czyta jsona i zwaraca obiekt z zawartoscia
     except:
         print("Error while reading source file (json)")
 
-def writeJson(filePath, dataObject):    #Zapisuje obiekt jako json
+def writeJson(filePath, dataObject):    #Zapisuje obiekt jako plik json
     with open(filePath, "w") as jsonFile:
             json.dump(dataObject, jsonFile)
 
-def readYaml(filePath): #Czyta jsona i zwaraca obiekt z zawartoscia
+def readYaml(filePath): #Czyta yamla i zwaraca obiekt z zawartoscia
     try:
         with open(filePath, 'r') as yamlFile:
             data = yaml.safe_load(yamlFile)
         return data
     except:
         print("Error while reading source file (yaml)")
+
+def writeYaml(filePath, dataObject):    #Zapisuje obiekt jako plik yaml
+    with open(filePath, "w") as yamlFile:
+            yaml.dump(dataObject, yamlFile)
 
 
 
@@ -44,9 +48,13 @@ if(sourceFormat == "json"):
 
     if(targetFormat == "json"):
       writeJson(targetFile, dataObject)
-      
+    elif(targetFormat == "yaml"):
+      writeYaml(targetFile, dataObject)
+
 elif(sourceFormat == "yaml"):
     dataObject = readYaml(sourceFile) 
     
     if(targetFormat == "json"):
       writeJson(targetFile, dataObject)
+    elif(targetFormat == "yaml"):
+      writeYaml(targetFile, dataObject)
