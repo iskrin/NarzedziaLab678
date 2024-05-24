@@ -1,5 +1,6 @@
 import argparse
 import json
+import yaml
 
 def pharseArguments():
     parser = argparse.ArgumentParser(description="Converter between .xml, .yaml, .json") 
@@ -10,27 +11,42 @@ def pharseArguments():
 
 def readJson(filePath): #Czyta jsona i zwaraca obiekt z zawartoscia
     try:
-        with open(filePath, 'r') as f:
-            data = json.load(f)
+        with open(filePath, 'r') as jsonFile:
+            data = json.load(jsonFile)
         return data
-    except ValueError:
+    except:
         print("Error while reading source file (json)")
 
 def writeJson(filePath, dataObject):    #Zapisuje obiekt jako json
     with open(filePath, "w") as jsonFile:
             json.dump(dataObject, jsonFile)
 
+def readYaml(filePath): #Czyta jsona i zwaraca obiekt z zawartoscia
+    try:
+        with open(filePath, 'r') as yamlFile:
+            data = yaml.safe_load(yamlFile)
+        return data
+    except:
+        print("Error while reading source file (yaml)")
+
+
+
 args = pharseArguments()    #argumenty
 
 sourceFile = args.sourceFile    #nazwa pliku wejsciowego wraz z rozszerzeniem
-currentFormat = sourceFile.split(".")[-1]   #rozszerze pliku wejsciowego
+sourceFormat = sourceFile.split(".")[-1]   #rozszerze pliku wejsciowego
 
 targetFile = args.targetFile    #nazwa pliku docelowego wraz z rozszerzeniem
 targetFormat = targetFile.split(".")[-1]    #rozszerze pliku docelowego
 
-if(currentFormat == "json"):
+if(sourceFormat == "json"):
     dataObject = readJson(sourceFile) 
 
     if(targetFormat == "json"):
-      writeJson(targetFile, dataObject)  
+      writeJson(targetFile, dataObject)
+      
+elif(sourceFormat == "yaml"):
+    dataObject = readYaml(sourceFile) 
     
+    if(targetFormat == "json"):
+      writeJson(targetFile, dataObject)
