@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
+import main
 
 def browseFile(entry):
     filepath = filedialog.askopenfilename()
@@ -12,7 +13,6 @@ def browseDirectory(entry):
     entry.delete(0, tk.END)
     entry.insert(0, filepath)
 
-# Utworzenie głównego okna aplikacji
 root = tk.Tk()
 root.title("File Converter")
 
@@ -25,7 +25,7 @@ entry1.grid(row=1, column=0, padx=10, pady=3)
 button1 = tk.Button(root, text="Browse", command=lambda: browseFile(entry1))
 button1.grid(row=1, column=1, padx=10)
 
-header2 = tk.Label(root, text="Wpisz nazwe wyjściową pliku wraz z rozszerzeniem:")
+header2 = tk.Label(root, text="Wpisz nazwe wyjściową pliku (bez rozszerzenia)")
 header2.grid(row=2, column=0, sticky="w", padx=10, pady=3)
 
 entry2 = tk.Entry(root, width=50)
@@ -42,11 +42,8 @@ inputOptions['values'] = ('json', 'xml', 'yaml')
 inputOptions.grid(column = 0, row = 5, columnspan=2) 
 
 
-
-
-
-#button3 = tk.Button(root, text="Konwertuj", command=lambda: browseFile(entry2))
-#button3.grid(row=4, column=0, padx=10, columnspan=2)
+button3 = tk.Button(root, text="Konwertuj", command=lambda: main.convert(entry1.get(), inputOptions.get(), entry2.get()))
+button3.grid(row=6, column=0, padx=10, pady=5, columnspan=2)
 
 
 root.mainloop()

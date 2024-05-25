@@ -2,6 +2,7 @@ import argparse
 import json
 import yaml
 import xmltodict as xml
+from pathlib import Path
 
 def pharseArguments():
     parser = argparse.ArgumentParser(description="Converter between .xml, .yaml, .json") 
@@ -45,53 +46,54 @@ def readXml(filePath): #Czyta xmla i zwaraca obiekt z zawartoscia
 
 def writeXml(filePath, dataObject):    #Zapisuje obiekt jako plik yaml
     with open(filePath, "w") as xmlFile:
-            xmlData = xml.unparse(dataObject, pretty = True)
+            xmlData = xml.unparse(dataObject, pretty = True, full_document=False)
             xmlFile.write(xmlData)
 
 
 
-args = pharseArguments()    #argumenty
-
-sourceFile = args.sourceFile    #nazwa pliku wejsciowego wraz z rozszerzeniem
-sourceFormat = sourceFile.split(".")[-1]   #rozszerze pliku wejsciowego
-
-targetFile = args.targetFile    #nazwa pliku docelowego wraz z rozszerzeniem
-targetFormat = targetFile.split(".")[-1]    #rozszerze pliku docelowego
-
-if(sourceFormat == "json"):
-    dataObject = readJson(sourceFile) 
-
-    if(targetFormat == "json"):
-      writeJson(targetFile, dataObject)
-    elif(targetFormat == "yaml"):
-      writeYaml(targetFile, dataObject)
-    elif(targetFormat == "xml"):
-      writeXml(targetFile, dataObject)
-    else:
-        print("Invalid file format")
-
-elif(sourceFormat == "yaml"):
-    dataObject = readYaml(sourceFile) 
+def convert(sourceFile, targetFormat, filename):
+    sourceFormat = sourceFile.split('.')[-1]
+    currentPath = Path(sourceFile)
+    parentPath = currentPath.parent
+    targetPath = parentPath / (str(filename) + "." + str(targetFormat))
+    print(targetPath)
     
-    if(targetFormat == "json"):
-      writeJson(targetFile, dataObject)
-    elif(targetFormat == "yaml"):
-      writeYaml(targetFile, dataObject)
-    elif(targetFormat == "xml"):
-      writeXml(targetFile, dataObject)
+    
+
+    if(sourceFormat == "json"):
+        dataObject = readJson(currentPath) 
+        if(targetFormat == "json"):
+            writeJson(targetPath, dataObject)
+        elif(targetFormat == "yaml"):
+            writeYaml(targetPath, dataObject)
+        elif(targetFormat == "xml"):
+            writeXml(targetPath, dataObject)
+        else:
+            print("Invalid file format")
+
+    elif(sourceFormat == "yaml"):
+        dataObject = readYaml(sourceFile) 
+        
+        if(targetFormat == "json"):
+            writeJson(targetPath, dataObject)
+        elif(targetFormat == "yaml"):
+            writeYaml(targetPath, dataObject)
+        elif(targetFormat == "xml"):
+            writeXml(targetPath, dataObject)
+        else:
+            print("Invalid file format")
+
+    elif(sourceFormat == "xml"):
+        dataObject = readXml(sourceFile) 
+        
+        if(targetFormat == "json"):
+            writeJson(targetPath, dataObject)
+        elif(targetFormat == "yaml"):
+            writeYaml(targetPath, dataObject)
+        elif(targetFormat == "xml"):
+            writeXml(targetPath, dataObject)
+        else:
+            print("Invalid file format")
     else:
         print("Invalid file format")
 
-elif(sourceFormat == "xml"):
-    dataObject = readXml(sourceFile) 
-    
-    if(targetFormat == "json"):
-      writeJson(targetFile, dataObject)
-    elif(targetFormat == "yaml"):
-      writeYaml(targetFile, dataObject)
-    elif(targetFormat == "xml"):
-      writeXml(targetFile, dataObject)
-    else:
-        print("Invalid file format")
-else:
-    print("Invalid file format")
