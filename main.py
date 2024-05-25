@@ -72,4 +72,7 @@ elif(sourceFormat == "yaml"):
 elif(sourceFormat == "xml"):
     dataObject = readXml(sourceFile) 
     
-    print(dataObject)
+    if(targetFormat == "json"):
+      writeJson(targetFile, dataObject)
+    elif(targetFormat == "yaml"):
+      writeYaml(targetFile, dataObject)
