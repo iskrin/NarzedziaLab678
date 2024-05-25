@@ -43,6 +43,11 @@ def readXml(filePath): #Czyta xmla i zwaraca obiekt z zawartoscia
     except:
         print("Error while reading source file (yaml)")
 
+def writeXml(filePath, dataObject):    #Zapisuje obiekt jako plik yaml
+    with open(filePath, "w") as xmlFile:
+            xmlData = xml.unparse(dataObject, pretty = True)
+            xmlFile.write(xmlData)
+
 
 
 args = pharseArguments()    #argumenty
@@ -60,6 +65,10 @@ if(sourceFormat == "json"):
       writeJson(targetFile, dataObject)
     elif(targetFormat == "yaml"):
       writeYaml(targetFile, dataObject)
+    elif(targetFormat == "xml"):
+      writeXml(targetFile, dataObject)
+    else:
+        print("Invalid file format")
 
 elif(sourceFormat == "yaml"):
     dataObject = readYaml(sourceFile) 
@@ -68,6 +77,10 @@ elif(sourceFormat == "yaml"):
       writeJson(targetFile, dataObject)
     elif(targetFormat == "yaml"):
       writeYaml(targetFile, dataObject)
+    elif(targetFormat == "xml"):
+      writeXml(targetFile, dataObject)
+    else:
+        print("Invalid file format")
 
 elif(sourceFormat == "xml"):
     dataObject = readXml(sourceFile) 
@@ -76,3 +89,9 @@ elif(sourceFormat == "xml"):
       writeJson(targetFile, dataObject)
     elif(targetFormat == "yaml"):
       writeYaml(targetFile, dataObject)
+    elif(targetFormat == "xml"):
+      writeXml(targetFile, dataObject)
+    else:
+        print("Invalid file format")
+else:
+    print("Invalid file format")
