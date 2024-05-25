@@ -1,6 +1,7 @@
 import argparse
 import json
 import yaml
+import xmltodict as xml
 
 def pharseArguments():
     parser = argparse.ArgumentParser(description="Converter between .xml, .yaml, .json") 
@@ -33,6 +34,15 @@ def writeYaml(filePath, dataObject):    #Zapisuje obiekt jako plik yaml
     with open(filePath, "w") as yamlFile:
             yaml.dump(dataObject, yamlFile)
 
+def readXml(filePath): #Czyta xmla i zwaraca obiekt z zawartoscia
+    try:
+        with open(filePath, 'r') as xmlFile:
+            xmlContent = xmlFile.read()
+            data = xml.parse(xmlContent)
+            return data
+    except:
+        print("Error while reading source file (yaml)")
+
 
 
 args = pharseArguments()    #argumenty
@@ -58,3 +68,8 @@ elif(sourceFormat == "yaml"):
       writeJson(targetFile, dataObject)
     elif(targetFormat == "yaml"):
       writeYaml(targetFile, dataObject)
+
+elif(sourceFormat == "xml"):
+    dataObject = readXml(sourceFile) 
+    
+    print(dataObject)
