@@ -1,15 +1,8 @@
-import argparse
 import json
 import yaml
 import xmltodict as xml
 from pathlib import Path
 
-def pharseArguments():
-    parser = argparse.ArgumentParser(description="Converter between .xml, .yaml, .json") 
-    parser.add_argument('sourceFile', type=str, help='Source file that we want to convert') #Plik wejsciowy
-    parser.add_argument('targetFile', type=str, help='Target file with a desired extension') #Plik docelowy
-    args = parser.parse_args()  
-    return args
 
 def readJson(filePath): #Czyta jsona i zwaraca obiekt z zawartoscia
     try:
@@ -42,7 +35,7 @@ def readXml(filePath): #Czyta xmla i zwaraca obiekt z zawartoscia
             data = xml.parse(xmlContent)
             return data
     except:
-        print("Error while reading source file (yaml)")
+        print("Error while reading source file (xml)")
 
 def writeXml(filePath, dataObject):    #Zapisuje obiekt jako plik yaml
     with open(filePath, "w") as xmlFile:
