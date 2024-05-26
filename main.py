@@ -51,11 +51,12 @@ def writeXml(filePath, dataObject):    #Zapisuje obiekt jako plik yaml
 
 
 
-def convert(sourceFile, targetFormat, filename):
+def convert(sourceFile, targetFormat, targetPath):
     sourceFormat = sourceFile.split('.')[-1]
     currentPath = Path(sourceFile)
-    parentPath = currentPath.parent
-    targetPath = parentPath / (str(filename) + "." + str(targetFormat))
+    filename = currentPath.with_suffix("." + str(targetFormat)).name
+    targetPath = Path(targetPath) / filename
+    print("target path")
     print(targetPath)
     
     

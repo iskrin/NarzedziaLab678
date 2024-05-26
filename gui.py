@@ -25,7 +25,7 @@ entry1.grid(row=1, column=0, padx=10, pady=3)
 button1 = tk.Button(root, text="Browse", command=lambda: browseFile(entry1))
 button1.grid(row=1, column=1, padx=10)
 
-header2 = tk.Label(root, text="Wpisz nazwe wyjściową pliku (bez rozszerzenia)")
+header2 = tk.Label(root, text="Wybierz ścieżkę wyjściową")
 header2.grid(row=2, column=0, sticky="w", padx=10, pady=3)
 
 entry2 = tk.Entry(root, width=50)
